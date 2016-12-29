@@ -1,28 +1,13 @@
-angular.module("schemaForm").run(["$templateCache", function($templateCache) {$templateCache.put("directives/decorators/bootstrap/arrayedit/angular-schema-form-arrayedit.html","<div  class=\"schema-form-array {{form.htmlClass}}\"\n      sf-field-model=\"sf-new-array\"\n      sf-new-array>\n  <label class=\"control-label\" ng-show=\"showTitle()\">{{ form.title }}</label>\n  <ol class=\"list-group\" sf-field-model ui-sortable=\"form.sortOptions\">\n    <li class=\"list-group-item {{form.fieldHtmlClass}}\"\n        schema-form-array-items\n        sf-field-model=\"ng-repeat\"\n        ng-repeat=\"item in $$value$$ track by $index\">\n      <button ng-hide=\"form.readonly || form.remove === null\"\n              ng-click=\"deleteFromArray($index)\"\n              ng-disabled=\"form.schema.minItems >= modelArray.length\"\n              style=\"position: relative; z-index: 20;\"\n              type=\"button\" class=\"close pull-right\">\n              <span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span>\n      </button>\n    </li>\n  </ol>\n  <div class=\"clearfix\" style=\"padding: 15px;\" ng-model=\"modelArray\" schema-validate=\"form\">\n    <div class=\"help-block\"\n         ng-show=\"(hasError() && errorMessage(schemaError())) || form.description\"\n         ng-bind-html=\"(hasError() && errorMessage(schemaError())) || form.description\"></div>\n\n    <button ng-hide=\"form.readonly || form.add === null\"\n            ng-click=\"appendToArray()\"\n            ng-disabled=\"form.schema.maxItems <= modelArray.length\"\n            type=\"button\"\n            class=\"btn {{ form.style.add || \'btn-default\' }} pull-right\">\n      <i class=\"glyphicon glyphicon-plus\"></i>\n      {{ form.add || \'Add\'}}\n    </button>\n  </div>\n</div>");}]);
+angular.module("schemaForm").run(["$templateCache", function($templateCache) {$templateCache.put("directives/decorators/bootstrap/arrayedit/angular-schema-form-arrayedit.html","<div sf-array=\"form\" class=\"schema-form-array {{form.htmlClass}}\" ng-model=\"$$value$$\" ng-model-options=\"form.ngModelOptions\">\n    <label class=\"control-label\" ng-show=\"showTitle()\">{{ form.title }}</label>\n    <ol class=\"list-group\" ng-model=\"modelArray\" ui-sortable=\"\">\n        <li class=\"list-group-item {{form.fieldHtmlClass}}\" ng-repeat=\"item in modelArray track by $index\">\n            <button ng-hide=\"form.readonly || form.remove === null\" ng-click=\"deleteFromArray($index)\" style=\"position: relative; z-index: 20;\" type=\"button\" class=\"close pull-right\">\n                <span aria-hidden=\"true\">&times;</span>\n                <span class=\"sr-only\">Close</span>\n            </button>\n            <div ng-show=\"editable\">\n                <sf-decorator ng-init=\"arrayIndex = $index\" form=\"copyWithIndex($index)\" ng-if=\"true\"></sf-decorator>\n            </div>\n            <div ng-show=\"!editable\">\n                <div style=\"font-size:21px;border-bottom:1px solid #e5e5e5;margin-bottom:20px\">{{form.schema.items.title}}</div>\n\n                  <div ng-repeat=\"(key, value) in item\" class=\"form-group\">\n                      \n                          <div class=\"col-sm-2\" style=\"padding:0px\"><b style=\"text-transform:capitalize\">{{key.toLowerCase()}}  :</b></div>\n                          <div class=\"col-sm-10\">{{value}}</div>\n                     \n                  </div>\n\n                <div>\n                    <div class=\"col-sm-12\" style=\"padding:0px;\">\n                        <hr style=\"margin:10px 0px\">\n                    </div>\n                </div>\n            </div>\n            \n            <div>\n              <button class=\"btn btn-warning\" ng-show=\"!editable\" ng-click=\"editable=true\">Edit</button>\n              <button class=\"btn btn-success\" ng-show=\"editable\" ng-click=\"editable=false\">Save</button>\n            </div>\n        </li>\n    </ol>\n    <div class=\"clearfix\" style=\"padding: 15px;\">\n        <button ng-hide=\"form.readonly || form.add === null\" ng-click=\"appendToArray()\" type=\"button\" class=\"btn {{ form.style.add || \'btn-default\' }} pull-right\">\n            <i class=\"glyphicon glyphicon-plus\"></i> {{ form.add || \'Add\'}}\n        </button>\n    </div>\n    <div class=\"help-block\" ng-show=\"(hasError() && errorMessage(schemaError())) || form.description\" ng-bind-html=\"(hasError() && errorMessage(schemaError())) || form.description\"></div>\n</div>");}]);
 angular.module('schemaForm').config(
-    ['schemaFormProvider', 'schemaFormDecoratorsProvider', 'sfPathProvider',
-        function(schemaFormProvider,  schemaFormDecoratorsProvider, sfPathProvider) {
-
-          var arrayedit = function(name, schema, options) {
-            if (schema.type === 'array' && schema.format === 'arrayedit') {
-              var f = schemaFormProvider.stdFormObj(name, schema, options);
-              f.key  = options.path;
-              f.type = 'arrayedit';
-              options.lookup[sfPathProvider.stringify(options.path)] = f;
-              return f;
-            }
-          };
-
-          schemaFormProvider.defaults.string.unshift(arrayedit);
-          //Add to the bootstrap directive
+    ['schemaFormProvider', 'schemaFormDecoratorsProvider', 'sfPathProvider', 'sfBuilderProvider',
+        function(schemaFormProvider, schemaFormDecoratorsProvider,
+         sfPathProvider, sfBuilderProvider) {
+          //Add Mapping
           schemaFormDecoratorsProvider.addMapping(
-              'bootstrapDecorator',
-              'arrayedit',
-              'directives/decorators/bootstrap/arrayedit/angular-schema-form-arrayedit.html'
-          );
-          schemaFormDecoratorsProvider.createDirective(
-              'arrayedit',
-              'directives/decorators/bootstrap/arrayedit/angular-schema-form-arrayedit.html'
+            'bootstrapDecorator',
+            'array',
+            'directives/decorators/bootstrap/arrayedit/angular-schema-form-arrayedit.html'
           );
         }
-    ])
+    ]);
