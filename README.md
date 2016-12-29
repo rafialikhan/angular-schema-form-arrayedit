@@ -1,5 +1,5 @@
 # angular-schema-form-arrayedit
-An [angular schema form](https://github.com/json-schema-form/angular-schema-form) - [plugin](https://github.com/json-schema-form/angular-schema-form/blob/development/docs/extending.md) to display array data with Editable text.
+An [angular schema form](https://github.com/json-schema-form/angular-schema-form) - [plugin](https://github.com/json-schema-form/angular-schema-form/blob/development/docs/extending.md) to display array data with editable option so as to reduce the space.
 
 Installation
 ------------
@@ -9,15 +9,15 @@ The easiest way is to install is with bower, this will also include dependencies
 bower install angular-schema-form-arrayedit
 ```
 
-The arrayedit add-on adds a new form type, `arrayedit`.
+This just overwrites the default array.html implementation of bootstrap decorator for schemaform. 
 
 |   Form Type    |       Becomes       |
 |:---------------|:-------------------:|
-|   arrayedit     |  Editable Array   |
+|   array        |  Editable Array   |
 
 | Schema             |   Default Form type  |
 |:-------------------|:------------:|
-| "type": "string" and "format": "arrayedit"   |   arrayedit   |
+| "type": "array"    |   array with editable blocks   |
 
 Example
 -----------------
