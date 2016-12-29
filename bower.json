@@ -1,7 +1,7 @@
 {
-  "name": "angular-schema-form-download",
-  "description": "A plugin to display a download button which points to a downloadable file through a path link.",
-  "main": "angular-schema-form-download.js",
+  "name": "angular-schema-form-arrayedit",
+  "description": "A plugin to edit arrays in angular schema-form. This is extending the angular array decorator.",
+  "main": "angular-schema-form-arrayedit.js",
   "authors": [
     "Rafi Ali Khan & Vikas Konsam (zool.in)"
   ],
@@ -16,7 +16,7 @@
     "schema-form",
     "json-schema"
   ],
-  "homepage": "https://github.com/rafialikhan/angular-schema-form-download",
+  "homepage": "https://github.com/rafialikhan/angular-schema-form-arrayedit",
   "ignore": [
     "**/.*",
     "node_modules",
