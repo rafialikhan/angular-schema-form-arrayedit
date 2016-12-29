@@ -1,41 +1,69 @@
-# angular-schema-form-download
-An [angular schema form](https://github.com/json-schema-form/angular-schema-form) - [plugin](https://github.com/json-schema-form/angular-schema-form/blob/development/docs/extending.md) to display a download button.
+# angular-schema-form-arrayedit
+An [angular schema form](https://github.com/json-schema-form/angular-schema-form) - [plugin](https://github.com/json-schema-form/angular-schema-form/blob/development/docs/extending.md) to display array data with Editable text.
 
 Installation
 ------------
 
 The easiest way is to install is with bower, this will also include dependencies:
 ```bash
-bower install angular-schema-form-download
+bower install angular-schema-form-arrayedit
 ```
 
-The download add-on adds a new form type, `download`.
+The arrayedit add-on adds a new form type, `arrayedit`.
 
 |   Form Type    |       Becomes       |
 |:---------------|:-------------------:|
-|   download     |  download button    |
+|   arrayedit     |  Editable Array   |
 
 | Schema             |   Default Form type  |
 |:-------------------|:------------:|
-| "type": "string" and "format": "download"   |   download   |
+| "type": "string" and "format": "arrayedit"   |   arrayedit   |
 
 Example
 -----------------
-Below is an example. It's written in javascript instead of pure schema and form so the use of the download object is supported.
+Below is an example. It's written in javascript instead of pure schema and form so the use of the arrayedit object is supported.
 
 ```javascript
 scope.schema = {
   "type": "object",
-  "title": "Application Form",
-  "description": "This is the description of the Application form."
+  "title": "Comment",
+  "required": [
+    "comments"
+  ],
   "properties": {
-    "DOCUMENT": {
-      "title": "Download Application Form",
-      "type": "string",
-      "format": "download",
-      "cssClass": "btn-primary",
-      "url": "http://zool.in/web/wp-content/uploads/2012/05/001_like.jpg",
-      "description": "This is an application form that can be downloaded for your reference."
+    "comments": {
+      "type": "array",
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
+            "type": "string",
+            "pattern": "^\\S+@\\S+$",
+            "description": "Email will be used for evil."
+          },
+          "spam": {
+            "title": "Spam",
+            "type": "boolean",
+            "default": true
+          },
+          "comment": {
+            "title": "Comment",
+            "type": "string",
+            "maxLength": 20,
+            "validationMessage": "Don't be greedy!"
+          }
+        },
+        "required": [
+          "name",
+          "comment"
+        ]
+      }
     }
   }
 }
@@ -45,11 +73,25 @@ The schema should be able to render the form on its own, but if you want to modi
 ```
 scope.form = [
   {
-    key: "DOCUMENT",
-    type: "download",
-    title: "This is a download button.",
-    cssClass: "btn-warning",
-    description: "Sample description"
+    "key": "comments",
+    "add": "New",
+    "style": {
+      "add": "btn-success"
+    },
+    "items": [
+      "comments[].name",
+      "comments[].email",
+      {
+        "key": "comments[].spam",
+        "type": "checkbox",
+        "title": "Yes I want spam.",
+        "condition": "model.comments[arrayIndex].email"
+      },
+      {
+        "key": "comments[].comment",
+        "type": "textarea"
+      }
+    ]
   }
 ]
 ```
