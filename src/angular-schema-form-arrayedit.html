@@ -6,34 +6,29 @@
                 <span aria-hidden="true">&times;</span>
                 <span class="sr-only">Close</span>
             </button>
-            <div ng-show="editable">
+            <div ng-show="editable[$index]">
                 <sf-decorator ng-init="arrayIndex = $index" form="copyWithIndex($index)" ng-if="true"></sf-decorator>
             </div>
-            <div ng-show="!editable">
+            <div ng-show="!editable[$index]">
                 <div style="font-size:21px;border-bottom:1px solid #e5e5e5;margin-bottom:20px">{{form.schema.items.title}}</div>
-
-                  <div ng-repeat="(key, value) in item" class="form-group">
-                      
-                          <div class="col-sm-2" style="padding:0px"><b style="text-transform:capitalize">{{key.toLowerCase()}}  :</b></div>
-                          <div class="col-sm-10">{{value}}</div>
-                     
-                  </div>
-
+                <div ng-repeat="(key, value) in item" class="form-group">
+                    <div class="col-sm-2" style="padding:0px"><b style="text-transform:capitalize">{{key.toLowerCase()}}  :</b></div>
+                    <div class="col-sm-10">{{value}} &nbsp;</div>
+                </div>
                 <div>
                     <div class="col-sm-12" style="padding:0px;">
                         <hr style="margin:10px 0px">
                     </div>
                 </div>
             </div>
-            
             <div>
-              <button class="btn btn-warning" ng-show="!editable" ng-click="editable=true">Edit</button>
-              <button class="btn btn-success" ng-show="editable" ng-click="editable=false">Save</button>
+                <button class="btn btn-warning" ng-show="!editable[$index]" ng-click="editable[$index]=true;">Edit</button>
+                <button class="btn btn-success" ng-show="editable[$index]" ng-click="editable[$index]=false">Save</button>
             </div>
         </li>
     </ol>
     <div class="clearfix" style="padding: 15px;">
-        <button ng-hide="form.readonly || form.add === null" ng-click="appendToArray()" type="button" class="btn {{ form.style.add || 'btn-default' }} pull-right">
+        <button ng-hide="form.readonly || form.add === null" ng-click="appendToArray();editable[modelArray.length-1]=true" type="button" class="btn {{ form.style.add || 'btn-default' }} pull-right">
             <i class="glyphicon glyphicon-plus"></i> {{ form.add || 'Add'}}
         </button>
     </div>
