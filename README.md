@@ -95,3 +95,15 @@ scope.form = [
   }
 ]
 ```
+
+Compiling
+------------
+run `gulp default` to build the distribution files.
+
+```
+git status 
+git add .
+git commit -m "Commit comments"
+git push origin master 
+ 
+```
