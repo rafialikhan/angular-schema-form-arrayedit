@@ -21,7 +21,7 @@
                     </div>
                 </div>
             </div>
-            <div>
+            <div ng-if="modelArray.length>0">
                 <button class="btn btn-warning" ng-show="!editable[$index]" ng-click="editable[$index]=true;">Edit</button>
                 <button class="btn btn-success" ng-show="editable[$index]" ng-click="editable[$index]=false">Save</button>
             </div>
