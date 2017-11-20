@@ -1,33 +1,35 @@
 <div sf-array="form" class="schema-form-array {{form.htmlClass}}" ng-model="$$value$$" ng-model-options="form.ngModelOptions">
-    <label class="control-label" ng-show="showTitle()">{{ form.title }} ({{modelArray.length}} of {{form.arraycount}})</label>
-    <div class="clearfix" style="padding: 15px;">
-            <button ng-hide="form.readonly || form.add === null" ng-click="appendToArray();editable[modelArray.length-1]=true" type="button" class="btn {{ form.style.add || 'btn-default' }} pull-right">
+    <label class="control-label" ng-show="showTitle()">{{ form.title }} </label>
+    <div ng-bind-html="form.description"></div>
+    <div class="clearfix schema-form-array-header">
+        <div class="pull-left">
+            <label class="schema-form-array-item-title">{{form.schema.items.title}}</label>
+            <div class="schema-form-array-required" ng-bind-html="modelArray.length + ' of ' +form.schema.arrayrequired"></div>
+        </div>
+        <div class="pull-right">   
+            <button ng-hide="form.readonly || form.add === null" ng-click="appendToArray();editable[modelArray.length-1]=true" type="button" class="btn {{ form.style.add || 'btn-default' }}">
                 <i class="glyphicon glyphicon-plus"></i> {{ form.add || 'Add'}}
             </button>
         </div>
-    <ol class="list-group" ng-model="modelArray" ui-sortable="">
-        <li class="list-group-item {{form.fieldHtmlClass}}" ng-repeat="item in modelArray track by $index">
-            <button ng-hide="form.readonly || form.remove === null" ng-click="deleteFromArray($index)" style="position: relative; z-index: 20;" type="button" class="close pull-right">
-                <span aria-hidden="true">&times;</span>
-                <span class="sr-only">Close</span>
-            </button>
+        </div>
+    <div class="list-group" ng-model="modelArray" ui-sortable="">
+        <div class="list-group-item {{form.fieldHtmlClass}}" ng-repeat="item in modelArray track by $index">
             <div ng-show="editable[$index]">
                 <sf-decorator ng-init="arrayIndex = $index" form="copyWithIndex($index)" ng-if="true"></sf-decorator>
             </div>
             <div ng-show="!editable[$index]">
-                <div style="font-size:21px;border-bottom:1px solid #e5e5e5;margin-bottom:20px">{{form.schema.items.title}}</div>
                 <div ng-repeat="(key, value) in item" class="form-group">
-                    <div class="col-sm-2" style="padding:0px"><b style="text-transform:capitalize">{{key.toLowerCase()}}  :</b></div>
+                    <div class="col-sm-2"><b style="text-transform:capitalize">{{key.toLowerCase()}}  :</b></div>
                     <div class="col-sm-10">{{value}} &nbsp;</div>
                 </div>
             </div>
-            <div ng-init="(modelArray.length==1)? editable[0]=true : '' ">
-                <hr style="margin:10px 0px">
+            <div class="schema-form-array-buttons" ng-init="(modelArray.length==1)? editable[0]=true : '' ">
                 <button class="btn btn-warning" ng-show="!editable[$index]" ng-click="editable[$index]=true;">Edit</button>
                 <button class="btn btn-success" ng-show="editable[$index]" ng-click="editable[$index]=false">Done</button>
+                <button class="btn btn-danger" ng-hide="form.readonly || form.remove === null" ng-click="deleteFromArray($index)">Delete</button>    
             </div>
-        </li>
-    </ol>
+        </div>
+    </div>
 
-    <div class="help-block" ng-show="(hasError() && errorMessage(schemaError())) || form.description" ng-bind-html="(hasError() && errorMessage(schemaError())) || form.description"></div>
+    <div class="help-block" ng-show="(hasError() && errorMessage(schemaError())) || form.description" ng-bind-html="(hasError() && errorMessage(schemaError()) || '')"></div>
 </div>

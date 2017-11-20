@@ -1,7 +1,6 @@
 angular.module('schemaForm').config(
-    ['schemaFormProvider', 'schemaFormDecoratorsProvider', 'sfPathProvider', 'sfBuilderProvider',
-        function(schemaFormProvider, schemaFormDecoratorsProvider,
-         sfPathProvider, sfBuilderProvider) {
+    ['schemaFormProvider', 'schemaFormDecoratorsProvider', 'sfPathProvider',
+        function(schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider) {
           //Add Mapping
           schemaFormDecoratorsProvider.addMapping(
             'bootstrapDecorator',
