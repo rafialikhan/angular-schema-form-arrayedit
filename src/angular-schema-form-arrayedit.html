@@ -15,15 +15,11 @@
                     <div class="col-sm-2" style="padding:0px"><b style="text-transform:capitalize">{{key.toLowerCase()}}  :</b></div>
                     <div class="col-sm-10">{{value}} &nbsp;</div>
                 </div>
-                <div>
-                    <div class="col-sm-12" style="padding:0px;">
-                        <hr style="margin:10px 0px">
-                    </div>
-                </div>
             </div>
-            <div ng-if="modelArray.length>0">
+            <div ng-init="(modelArray.length==1)? editable[0]=true : '' ">
+                <hr style="margin:10px 0px">
                 <button class="btn btn-warning" ng-show="!editable[$index]" ng-click="editable[$index]=true;">Edit</button>
-                <button class="btn btn-success" ng-show="editable[$index]" ng-click="editable[$index]=false">Save</button>
+                <button class="btn btn-success" ng-show="editable[$index]" ng-click="editable[$index]=false">Done</button>
             </div>
         </li>
     </ol>
